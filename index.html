@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>IntervQueue</title>
+
+  <link rel="stylesheet" href="intervqueue.css">
+</head>
+<body>
+
+<div id="header">
+  <h1>IntervQueue</h1>
+  <h2></h2>
+  <span id="signInSpan">
+    <button id="signInButton">Sign In</button>
+    <button id="signOutButton" class="hidden">Sign Out</button>
+    <span id="signInUserName" class="hidden"></span>
+    <img id="signInUserPhoto" class="hidden" src="">
+  </span>
+</div>
+
+<div id="content">
+  <div id="requestPush" class="contentBlock">
+    <h1>Welcome!</h1>
+    <span id="welcomeText">Use the button above to sign in to a Google account.</span>
+    <span class="rightJustify">
+      <button id="requestPushButton" disabled>Join Queue</button>
+    </span>
+  </div>
+
+  <ul id="queue">
+  </ul>
+</div>
+
+<!-- Scripts -->
+<script src="bower_components/jquery/dist/jquery.min.js"></script>
+<script src="bower_components/firebase/firebase.js"></script>
+
+<script src="firebaseinit.js"></script>
+<script src="intervqueue.js"></script>
+
+</body>
+</html>

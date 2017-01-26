@@ -1,0 +1,39 @@
+{
+  "rules": {
+    "queues": {
+      "$queueid": {
+        ".validate": "data.exists() || newData.child('admins').child(auth.token.email).exists()",
+
+        "admins": {
+          ".read": "root.child('queues/'+$queueid+'/admins/'+auth.token.email).exists()",
+          ".write": "root.child('queues/'+$queueid+'/admins/'+auth.token.email).exists()"
+        },
+        "name": {
+          ".read": "true",
+          ".write": "root.child('queues/'+$queueid+'/admins/'+auth.token.email).exists()",
+          ".validate": "newData.isString() && newData.val().length <= 32"
+        },
+        "data": {
+          ".read": "true",
+          "$uid": {
+            ".write": "!data.exists() || (!newData.exists() && auth.uid === $uid) || root.child('queues/'+$queueid+'/admins/'+auth.token.email).exists()",
+            ".validate": "newData.hasChildren(['name', 'timestamp'])",
+
+            "name": {
+              ".validate": "newData.isString() && newData.val().length <= 64"
+            },
+            "timestamp": {
+              ".validate": "newData.val() == now"
+            },
+            "$other": {
+              ".write": "false"
+            }
+          }
+        },
+        "usersinqueue": {
+
+        }
+      }
+    }
+  }
+}
