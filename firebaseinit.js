@@ -1,10 +1,10 @@
 // Initialize Firebase
 var config = {
-  apiKey: "AIzaSyA5nz5tMmf164t8mgeP0piNt5bsUkWoHM4",
-  authDomain: "intervqueue.firebaseapp.com",
-  databaseURL: "https://intervqueue.firebaseio.com",
-  storageBucket: "intervqueue.appspot.com",
-  messagingSenderId: "318022245793"
+  apiKey: "AIzaSyCGGkWapbg9KdPmCe8BvljppP7tEk16E7w",
+  authDomain: "interqueue-a0fc6.firebaseapp.com",
+  databaseURL: "https://interqueue-a0fc6.firebaseio.com",
+  storageBucket: "interqueue-a0fc6.appspot.com",
+  messagingSenderId: "324399876701"
 };
 firebase.initializeApp(config);
 

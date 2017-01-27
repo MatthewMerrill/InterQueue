@@ -120,6 +120,9 @@ dialog::backdrop {
 	display: none !important;
 }
 
+#requestPush {
+	animation: dropEnter 1s linear 0s;
+}
 #requestPush h1 {
 	margin: 0;
 }
