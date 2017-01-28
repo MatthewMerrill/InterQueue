@@ -20,7 +20,7 @@
 </div>
 
 <div id="content">
-  <div id="requestPush" class="contentBlock">
+  <div id="requestPush" class="contentBlock hidden">
     <h1>Welcome!</h1>
     <span id="welcomeText">Use the button above to sign in to a Google account.</span>
     <span class="rightJustify">
@@ -28,7 +28,26 @@
     </span>
   </div>
 
-  <ul id="queue">
+  <div id="queueJoin" class="contentBlock">
+    <h1>Go to queue view:</h1>
+    <span id="joinFeedback" style="color: "></span>
+    <input id="joinInput" type="text" placeholder="Queue Code">
+    <span class="rightJustify">
+      <button id="joinRoomButton">Go To Queue</button>
+    </span>
+  </div>
+
+  <!--<div id="queueCreate" class="contentBlock">-->
+    <!--<h1>Create new queue:</h1>-->
+    <!--<input type="text" placeholder="Queue Code">-->
+    <!--<br/><br/>-->
+    <!--<input type="text" placeholder="Queue Name">-->
+    <!--<span class="rightJustify">-->
+      <!--<button id="">Create Queue</button>-->
+    <!--</span>-->
+  <!--</div>-->
+
+  <ul id="queue" class="hidden">
   </ul>
 </div>
 
@@ -39,6 +58,7 @@
 <script src="https://www.gstatic.com/firebasejs/3.6.2/firebase-database.js"></script>
 <script src="https://www.gstatic.com/firebasejs/3.6.2/firebase-messaging.js"></script>
 
+<script src="http://www.piplotter.com/js/mquery.js"></script>
 
 <script src="firebaseinit.js"></script>
 <script src="interqueue.js"></script>

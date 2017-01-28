@@ -13,8 +13,8 @@ html, body {
 
 
 button {
-	display: block;
-	font-size: 1em;
+	display: inline-block;
+	font-size: 1rem;
 	font-weight: bold;
 	padding: 10px 10px;
 	border: 0;
@@ -40,6 +40,11 @@ dialog::backdrop {
 	right: 0;
 
 	background-color: rgba(0, 0, 0, .8);
+}
+
+input {
+	font-size: 1rem;
+	padding: 8px 10px;
 }
 
 #header {
@@ -120,11 +125,17 @@ dialog::backdrop {
 	display: none !important;
 }
 
+#joinFeedback {
+	display: block;
+	font-weight: bold;
+	color: #df5f65;
+}
+
 #requestPush {
 	animation: dropEnter 1s linear 0s;
 }
-#requestPush h1 {
-	margin: 0;
+#content h1 {
+	margin: 0 0 10px 0;
 }
 #welcomeText {
 	display: block;
