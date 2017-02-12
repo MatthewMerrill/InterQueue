@@ -1,4 +1,6 @@
 var queueId = $m.query('q');
+var admins = undefined;
+
 if (queueId) {
   $('#queueJoin').addClass('hidden');
   $('#requestPush').removeClass('hidden');
@@ -6,7 +8,9 @@ if (queueId) {
 
   var queueRef = firebase.database().ref('queues/' + queueId);
   var dataRef = firebase.database().ref('queues/' + queueId + '/data');
+  var adminRef = firebase.database().ref('queues/' + queueId + '/admins');
   var inQueue = false;
+  var isAdmin = false;
 
   queueRef.child('name').on('value', function (data) {
     if (data.val() == null) {
@@ -73,6 +77,37 @@ if (queueId) {
     });
   });
 
+  adminRef.on('value', function (data) {
+    console.log(data.val());
+    admins = data.val();
+    if (firebase.auth().currentUser && data.val()[firebase.auth().currentUser.uid]) {
+      setAdmin(true);
+    } else {
+      setAdmin(false);
+    }
+  });
+
+  function setAdmin(admin) {
+    if (admin) {
+      isAdmin = true;
+
+      $('#queue').find('li').each(function (index, value) {
+        if ((!firebase.auth().currentUser) || $(value).id.substring(3) != firebase.auth().currentUser.uid)
+          $(value).append($('<button>X</button>'));
+        $('button', $(value)).click(function () {
+          dataRef.child(data.key).remove();
+        });
+      });
+    } else {
+      isAdmin = false;
+
+      $('#queue').find('li').each(function (index, value) {
+        if ((!firebase.auth().currentUser) || $(value).id.substring(3) != firebase.auth().currentUser.uid)
+          $('button', $(value)).remove();
+      })
+    }
+  }
+
   function ownThisItem(data) {
     return firebase.auth().currentUser && (data.key == firebase.auth().currentUser.uid);
   }
@@ -112,7 +147,7 @@ if (queueId) {
     var newLi = $(
       '<li id="qi_' + data.key + '" timestamp="' + data.val().timestamp + '">' +
       '<span>' + data.val().name + '</span>' +
-      ((ownThisItem(data)) ? '<button>X</button>' : '') +
+      ((isAdmin || ownThisItem(data)) ? '<button>X</button>' : '') +
       '</li>');
     $('button', newLi).click(function () {
       dataRef.child(data.key).remove();
@@ -178,8 +213,8 @@ if (queueId) {
   goToState(SIGNED_OUT);
 } else {
 
-  function joinRoom() {
-    var queueCode = $('#joinInput').val();
+  function joinRoom(code) {
+    var queueCode = code || $('#joinInput').val();
     console.log('trying to join', queueCode);
     firebase.database().ref('queues/'+queueCode+'/name').once('value', function (data) {
       if (data.val() == null) {
@@ -194,7 +229,38 @@ if (queueId) {
   $('#joinRoomButton').click(joinRoom);
   $('#joinInput').keyup(function(ev) {
     if (ev.keyCode == 13) joinRoom();
-  })
+  });
+
+  if ($m.query('iknowwhatiamdoing') == true) {
+    $('#queueCreateForm').submit(function (e) {
+      e.preventDefault();
+      e.returnValue = false;
+
+      if (!firebase.auth().currentUser) {
+        $m.query('iknowwhatiamdoing', null);
+        window.location.reload();
+      }
+
+      var code = $('#createCode').val();
+      var name = $('#createName').val();
+
+      if (code && code.length && name && name.length && name.length < 32) {
+        var authval = {};
+        authval[firebase.auth().currentUser.uid] = 1;
+        firebase.database().ref('queues/' + code + '/admins')
+          .set(authval)
+          .then(function() {
+            firebase.database().ref('queues/' + code + '/name')
+              .set(name)
+              .then(function() {
+                joinRoom(code);
+              });
+          });
+      }
+    });
+
+    $('#queueCreate').removeClass('hidden');
+  }
 }
 
 

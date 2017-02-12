@@ -30,22 +30,24 @@
 
   <div id="queueJoin" class="contentBlock">
     <h1>Go to queue view:</h1>
-    <span id="joinFeedback" style="color: "></span>
+    <span id="joinFeedback" style="color: red"></span>
     <input id="joinInput" type="text" placeholder="Queue Code">
     <span class="rightJustify">
       <button id="joinRoomButton">Go To Queue</button>
     </span>
   </div>
 
-  <!--<div id="queueCreate" class="contentBlock">-->
-    <!--<h1>Create new queue:</h1>-->
-    <!--<input type="text" placeholder="Queue Code">-->
-    <!--<br/><br/>-->
-    <!--<input type="text" placeholder="Queue Name">-->
-    <!--<span class="rightJustify">-->
-      <!--<button id="">Create Queue</button>-->
-    <!--</span>-->
-  <!--</div>-->
+  <div id="queueCreate" class="contentBlock hidden">
+    <h1>Create new queue:</h1>
+    <form id="queueCreateForm">
+      <input id="createCode" type="text" name="code" placeholder="Queue Code" required>
+      <br/><br/>
+      <input id="createName" maxlength="32" type="text" name="name" placeholder="Queue Name" required>
+      <span class="rightJustify">
+        <button id="queueCreateButton">Create Queue</button>
+      </span>
+    </form>
+  </div>
 
   <ul id="queue" class="hidden">
   </ul>

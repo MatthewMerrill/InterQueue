@@ -2,21 +2,25 @@
   "rules": {
     "queues": {
       "$queueid": {
-        ".validate": "data.exists() || newData.child('admins').child(auth.token.email).exists()",
+        ".validate": "data.exists() || newData.child('admins').child(auth.uid).exists()",
 
         "admins": {
-          ".read": "root.child('queues/'+$queueid+'/admins/'+auth.token.email).exists()",
-          ".write": "root.child('queues/'+$queueid+'/admins/'+auth.token.email).exists()"
+          ".read": "true",
+          ".write": "(!data.exists() && newData.child(auth.uid).exists()) || root.child('queues/'+$queueid+'/admins/'+auth.uid).exists()",
+
+          "$uid": {
+            ".validate": "newData.val() == 1"
+          }
         },
         "name": {
           ".read": "true",
-          ".write": "root.child('queues/'+$queueid+'/admins/'+auth.token.email).exists()",
+          ".write": "root.child('queues/'+$queueid+'/admins/'+auth.uid).exists()",
           ".validate": "newData.isString() && newData.val().length <= 32"
         },
         "data": {
           ".read": "true",
           "$uid": {
-            ".write": "!data.exists() || (!newData.exists() && auth.uid === $uid) || root.child('queues/'+$queueid+'/admins/'+auth.token.email).exists()",
+            ".write": "!data.exists() || (!newData.exists() && auth.uid === $uid) || root.child('queues/'+$queueid+'/admins/'+auth.uid).exists()",
             ".validate": "newData.hasChildren(['name', 'timestamp'])",
 
             "name": {
@@ -29,9 +33,6 @@
               ".write": "false"
             }
           }
-        },
-        "usersinqueue": {
-
         }
       }
     }
